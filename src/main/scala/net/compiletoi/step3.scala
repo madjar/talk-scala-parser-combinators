@@ -9,16 +9,16 @@ case class Product(left: Expression, right: Expression) extends Expression
 
 object ExpressionParser extends RegexParsers {
   // example: "42"
-  def lit = ???
+  def lit = """\d+""".r ^^ {i => Literal(i.toInt)}
 
   // example: "(1 + 2)" or "((1 + 2) + 3)"
-  def sum = ???
+  def sum = "(" ~> (expr <~ "+") ~ expr <~ ")" ^^ { case l ~ r => Sum(l, r)}
 
   // example: "(1 * 2)" or "((1 + 2) * 3)"
-  def product = ???
+  def product = "(" ~> (expr <~ "*") ~ expr <~ ")" ^^ { case l ~ r => Product(l, r)}
 
   // example: "(12 + (1 * 2))"
-  def expr: Parser[Expression] = ???
+  def expr: Parser[Expression] = lit | sum | product
 
 
   def apply(input: String): ParseResult[Expression] = parseAll(expr, input)

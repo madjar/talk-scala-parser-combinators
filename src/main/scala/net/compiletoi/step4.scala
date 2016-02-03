@@ -13,14 +13,15 @@ case class JObject(v: Map[String, JSON]) extends JSON
 object JSONParser extends RegexParsers {
   // for some inspiration, see http://www.json.org/
 
-  def str = ???
-  def num = ???
-  def bool = ???
-  def null_ = ???
-  def array = ???
-  def object_ = ???
+  def str = "\"" ~> """[^"]*""".r <~"\"" ^^ JStr
+  def num = """\d+(\.\d*)?""".r ^^ (d => JNum(d.toDouble))
+  def bool = "true" ^^^ JBool(true) | "false" ^^^ JBool(false)
+  def null_ = "null" ^^^ JNull
+  def array = "[" ~> repsep(json, ",") <~ "]" ^^ JArray
+  def objItem = (str <~ ":") ~ json ^^ { case k ~ v => (k.v, v)}
+  def object_ =  "{" ~> repsep(objItem, ",") <~ "}" ^^ (l => JObject(l.toMap))
 
-  def json: Parser[JSON] = ???
+  def json: Parser[JSON] = str | num | bool | null_ | array | object_
 
 
   def apply(input: String): ParseResult[JSON] = parseAll(json, input)
