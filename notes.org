@@ -1,0 +1,10 @@
+* Paris Scala User Group
+<2016-06-30 Jeu>
+- Bon public, l'interaction est bonne.
+- Trop trainé sur le premier exercice
+- Trop modeste/trop de modalisateurs sur les slides théorie des catégories
+** TODO [0/3] Améliorations
+- [ ] Une fois que j'ai une monade, montrer le for comprehension
+- [ ] Mettre les specs/exemples dans le code pour éviter les aller-retours
+- [ ] Les gens galèrent sur le troisième exo (recursion, boucle infinie,
+  précédence des opérateurs)
